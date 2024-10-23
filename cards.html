@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px; /* Added padding for smaller screens */
+        }
+
+        .container {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            max-width: 500px; /* Limit maximum width */
+            width: 100%; /* Ensure it takes full width on smaller devices */
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        input {
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%; /* Full width */
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 15px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            width: 100%; /* Full width */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #cardContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px; /* Reduced padding */
+            width: 120px;
+            height: 120px;
+            margin: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 90px; /* Adjust card width for smaller screens */
+                height: 90px; /* Adjust card height for smaller screens */
+                font-size: 20px; /* Adjust font size for smaller screens */
+            }
+
+            h1 {
+                font-size: 1.5rem; /* Adjust heading size for smaller screens */
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.2rem; /* Further adjust heading size */
+            }
+
+            button {
+                padding: 10px; /* Reduce button padding */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Cards</h1>
+        <input type="number" id="numberInput" placeholder="Enter number of cards" min="1">
+        <button id="submitButton">Generate Cards</button>
+        <div id="cardContainer"></div>
+    </div>
+    <script>
+        document.getElementById('submitButton').addEventListener('click', generateCards);
+
+        function generateCards() {
+            const cardContainer = document.getElementById('cardContainer');
+            cardContainer.innerHTML = ''; // Clear previous cards
+            const num = parseInt(document.getElementById('numberInput').value);
+
+            if (isNaN(num) || num <= 1) {
+                alert('Please enter a valid number greater than 1');
+                return;
+            }
+
+            const numbers = Array.from({ length: num }, (_, i) => i + 1); // Generate numbers from 1 to num
+
+            // Shuffle the numbers array
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+
+            for (let i = 0; i < numbers.length; i++) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.textContent = 'Open Me!!';
+                card.addEventListener('click', () => {
+                    card.textContent = numbers[i]; // Assign a unique number from the shuffled array
+                });
+                cardContainer.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html>
